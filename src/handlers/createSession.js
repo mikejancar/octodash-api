@@ -30,20 +30,21 @@ exports.createSession = async (event) => {
     region: region,
   });
 
-  secretsManager.getSecretValue({ SecretId: secretName }, function (err, data) {
-    if (err) {
-      console.log(err);
-      return {
-        statusCode: 500,
-        headers,
-        body: "Internal server error",
-      };
-    } else {
-      return {
-        statusCode: 200,
-        headers,
-        body: JSON.stringify(data),
-      };
-    }
-  });
+  try {
+    const secretData = await secretsManager
+      .getSecretValue({ SecretId: secretName })
+      .promise();
+    return {
+      statusCode: 200,
+      headers,
+      body: JSON.stringify(secretData),
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      statusCode: 500,
+      headers,
+      body: "Internal server error",
+    };
+  }
 };
