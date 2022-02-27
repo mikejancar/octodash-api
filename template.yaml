@@ -1,0 +1,30 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: >-
+  octodash-api
+
+Transform: AWS::Serverless-2016-10-31
+
+Resources:
+  createSessionFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/createSession.createSession
+      Runtime: nodejs14.x
+      Architectures:
+        - x86_64
+      MemorySize: 128
+      Timeout: 100
+      Description: Creates a new octodash client session.
+      Policies:
+        - AWSSecretsManagerGetSecretValuePolicy:
+            SecretArn: arn:aws:secretsmanager:us-east-1:887063001842:secret:OCTODASH_SECRETS-uI7jur
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /session
+            Method: POST
+Outputs:
+  WebEndpoint:
+    Description: "API Gateway endpoint URL for Prod stage"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/"

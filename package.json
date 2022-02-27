@@ -1,0 +1,11 @@
+{
+  "name": "octodash-api",
+  "version": "0.1.0",
+  "description": "The API for the octodash application",
+  "keywords": [
+    "aws",
+    "lambda"
+  ],
+  "author": "Mike Jancar",
+  "license": "ISC"
+}
