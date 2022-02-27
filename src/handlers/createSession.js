@@ -36,7 +36,7 @@ exports.createSession = async (event) => {
     return {
       statusCode: 200,
       headers,
-      body: JSON.stringify(secretData.SecretString),
+      body: secretData.SecretString,
     };
   } catch (error) {
     console.log(error);
