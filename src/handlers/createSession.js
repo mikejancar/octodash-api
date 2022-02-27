@@ -16,9 +16,8 @@ const headers = {
  * Creates an octodash client session
  */
 exports.createSession = async (event) => {
-  console.info("received:", event);
-
   if (event.httpMethod !== "POST") {
+    console.log(`Invalid method: ${event.httpMethod}`);
     return {
       statusCode: 400,
       headers,
@@ -37,7 +36,7 @@ exports.createSession = async (event) => {
     return {
       statusCode: 200,
       headers,
-      body: JSON.stringify(secretData),
+      body: JSON.stringify(secretData.SecretString),
     };
   } catch (error) {
     console.log(error);
