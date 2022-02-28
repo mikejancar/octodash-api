@@ -5,6 +5,17 @@ Description: >-
 Transform: AWS::Serverless-2016-10-31
 
 Resources:
+  OctodashApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      EndpointConfiguration:
+        Type: REGIONAL
+      StageName: prod
+      Cors:
+        AllowMethods: "'POST'"
+        AllowHeaders: "'*'"
+        AllowOrigin: "'*'"
+
   createSessionFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -24,6 +35,8 @@ Resources:
           Properties:
             Path: /session
             Method: POST
+            RestApiId: !Ref OctodashApi
+
 Outputs:
   WebEndpoint:
     Description: "API Gateway endpoint URL for Prod stage"
