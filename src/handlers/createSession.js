@@ -8,7 +8,7 @@ const secretName = "OCTODASH_SECRETS";
 
 const headers = {
   "Access-Control-Allow-Headers": "*",
-  "Access-Control-Allow-Origin": "https://octodash.mikejancar.com",
+  "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Methods": "OPTIONS,POST",
 };
 
