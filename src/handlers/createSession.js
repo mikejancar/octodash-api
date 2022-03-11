@@ -1,28 +1,17 @@
-// Create clients and set shared const values outside of the handler.
+import { createResponse } from '../core/response';
 
-// Load the AWS SDK
-const AWS = require("aws-sdk");
+const AWS = require('aws-sdk');
 
-const region = "us-east-1";
-const secretName = "OCTODASH_SECRETS";
-
-const headers = {
-  "Access-Control-Allow-Headers": "*",
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Methods": "OPTIONS,POST",
-};
+const region = 'us-east-1';
+const secretName = 'OCTODASH_SECRETS';
 
 /**
  * Creates an octodash client session
  */
 exports.createSession = async (event) => {
-  if (event.httpMethod !== "POST") {
+  if (event.httpMethod !== 'POST') {
     console.log(`Invalid method: ${event.httpMethod}`);
-    return {
-      statusCode: 400,
-      headers,
-      body: "Bad request",
-    };
+    return createResponse(400);
   }
 
   var secretsManager = new AWS.SecretsManager({
@@ -30,20 +19,11 @@ exports.createSession = async (event) => {
   });
 
   try {
-    const secretData = await secretsManager
-      .getSecretValue({ SecretId: secretName })
-      .promise();
-    return {
-      statusCode: 200,
-      headers,
-      body: { githubClientId: secretData.SecretString.githubClientId },
-    };
+    const secretData = await secretsManager.getSecretValue({ SecretId: secretName }).promise();
+
+    return createResponse(200, { githubClientId: secretData.SecretString.githubClientId });
   } catch (error) {
     console.log(error);
-    return {
-      statusCode: 500,
-      headers,
-      body: "Internal server error",
-    };
+    return createResponse(500);
   }
 };

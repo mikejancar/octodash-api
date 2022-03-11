@@ -1,15 +1,10 @@
 import fetch from 'node-fetch';
+import { createResponse } from '../core/response';
 
 const AWS = require('aws-sdk');
 
 const region = 'us-east-1';
 const secretName = 'OCTODASH_SECRETS';
-
-const headers = {
-  'Access-Control-Allow-Headers': '*',
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Methods': 'OPTIONS,POST',
-};
 
 /**
  * Acquires a GitHub access token for the current session
@@ -17,20 +12,12 @@ const headers = {
 exports.acquireToken = async (event) => {
   if (event.httpMethod !== 'POST') {
     console.log(`Invalid method: ${event.httpMethod}`);
-    return {
-      statusCode: 400,
-      headers,
-      body: 'Bad request',
-    };
+    return createResponse(400);
   }
 
   if (!event.body) {
     console.log(`Missing body`);
-    return {
-      statusCode: 400,
-      headers,
-      body: 'Bad request',
-    };
+    return createResponse(400);
   }
 
   let sessionCode = '';
@@ -38,20 +25,12 @@ exports.acquireToken = async (event) => {
     const eventBody = JSON.parse(event.body);
     if (!eventBody.sessionCode) {
       console.log(`Missing sessionCode`);
-      return {
-        statusCode: 400,
-        headers,
-        body: 'Bad request',
-      };
+      return createResponse(400);
     }
     sessionCode = eventBody.sessionCode;
   } catch (error) {
     console.log(error);
-    return {
-      statusCode: 400,
-      headers,
-      body: 'Bad request',
-    };
+    return createResponse(400);
   }
 
   var secretsManager = new AWS.SecretsManager({
@@ -68,17 +47,9 @@ exports.acquireToken = async (event) => {
     });
     const accessToken = response.json();
 
-    return {
-      statusCode: 200,
-      headers,
-      body: { accessToken },
-    };
+    return createResponse(200, { accessToken });
   } catch (error) {
     console.log(error);
-    return {
-      statusCode: 500,
-      headers,
-      body: 'Internal server error',
-    };
+    return createResponse(500);
   }
 };
