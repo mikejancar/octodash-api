@@ -36,3 +36,24 @@ Resources:
             Path: /session
             Method: POST
             RestApiId: !Ref OctodashApi
+
+  acquireTokenFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/acquireToken.acquireToken
+      Runtime: nodejs14.x
+      Architectures:
+        - x86_64
+      MemorySize: 128
+      Timeout: 100
+      Description: Acquires a GitHub access token for the current session.
+      Policies:
+        - AWSSecretsManagerGetSecretValuePolicy:
+            SecretArn: arn:aws:secretsmanager:us-east-1:887063001842:secret:OCTODASH_SECRETS-uI7jur
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /token
+            Method: POST
+            RestApiId: !Ref OctodashApi

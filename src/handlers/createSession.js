@@ -36,7 +36,7 @@ exports.createSession = async (event) => {
     return {
       statusCode: 200,
       headers,
-      body: secretData.SecretString,
+      body: { githubClientId: secretData.SecretString.githubClientId },
     };
   } catch (error) {
     console.log(error);
