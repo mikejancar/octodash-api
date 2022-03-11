@@ -6,6 +6,7 @@
     "aws",
     "lambda"
   ],
+  "type": "module",
   "author": "Mike Jancar",
   "license": "ISC",
   "dependencies": {

@@ -1,7 +1,6 @@
+import { AWS } from 'aws-sdk';
 import fetch from 'node-fetch';
 import { createResponse } from '../core/response';
-
-const AWS = require('aws-sdk');
 
 const region = 'us-east-1';
 const secretName = 'OCTODASH_SECRETS';
