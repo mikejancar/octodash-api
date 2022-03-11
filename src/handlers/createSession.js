@@ -1,4 +1,4 @@
-import { AWS } from 'aws-sdk';
+import { SecretsManagerClient } from '@aws-sdk/client-secrets-manager';
 import { createResponse } from '../core/response';
 
 const region = 'us-east-1';
@@ -13,7 +13,7 @@ exports.createSession = async (event) => {
     return createResponse(400);
   }
 
-  var secretsManager = new AWS.SecretsManager({
+  var secretsManager = new SecretsManagerClient({
     region: region,
   });
 

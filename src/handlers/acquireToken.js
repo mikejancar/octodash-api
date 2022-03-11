@@ -1,4 +1,4 @@
-import { AWS } from 'aws-sdk';
+import { SecretsManagerClient } from '@aws-sdk/client-secrets-manager';
 import fetch from 'node-fetch';
 import { createResponse } from '../core/response';
 
@@ -32,7 +32,7 @@ exports.acquireToken = async (event) => {
     return createResponse(400);
   }
 
-  var secretsManager = new AWS.SecretsManager({
+  var secretsManager = new SecretsManagerClient({
     region: region,
   });
 
