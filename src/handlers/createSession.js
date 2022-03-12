@@ -19,8 +19,8 @@ export async function createSession(event) {
 
   try {
     const secretData = await secretsManager.getSecretValue({ SecretId: secretName });
-
-    return createResponse(200, { githubClientId: secretData.SecretString.githubClientId });
+    const secretJson = JSON.parse(secretData.SecretString);
+    return createResponse(200, { githubClientId: secretJson.githubClientId });
   } catch (error) {
     console.log(error);
     return createResponse(500);
