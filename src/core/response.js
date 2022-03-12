@@ -4,18 +4,18 @@ const headers = {
   'Access-Control-Allow-Methods': 'OPTIONS,POST,GET,PUT',
 };
 
-export function createResponse(status, customBody) {
-  const body = customBody || getStandardBody(status);
+export function createResponse(statusCode, customBody) {
+  const body = customBody || getStandardBody(statusCode);
   return {
-    status,
+    statusCode,
     body,
     headers,
     isBase64Encoded: false,
   };
 }
 
-function getStandardBody(status) {
-  switch (status) {
+function getStandardBody(statusCode) {
+  switch (statusCode) {
     case 400:
       return { error: 'Bad request' };
     case 500:
