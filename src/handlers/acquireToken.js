@@ -46,11 +46,12 @@ export async function acquireToken(event) {
     });
 
     if (!response.ok) {
-      console.log(`Failed to acquire token: ${response.status} - ${response.text()}`);
+      const responseText = await response.text();
+      console.log(`Failed to acquire token: ${response.status} - ${responseText}`);
       return createResponse(response.status, { error: 'Failed to acquire token' });
     }
 
-    const accessToken = response.json();
+    const accessToken = await response.json();
     return createResponse(200, { accessToken });
   } catch (error) {
     console.log(error);
