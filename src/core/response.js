@@ -16,9 +16,9 @@ export function createResponse(status, customBody) {
 
 function getStandardBody(status) {
   switch (status) {
-    case '400':
+    case 400:
       return { error: 'Bad request' };
-    case '500':
+    case 500:
       return { error: 'Internal server error' };
     default:
       return { message: 'No response' };
