@@ -44,8 +44,13 @@ export async function acquireToken(event) {
       body: { clientId: secretData.githubClientId, clientSecret: secretData.githubClientSecret, sessionCode },
       headers: { Accept: 'application/json' },
     });
-    const accessToken = response.json();
 
+    if (!response.ok) {
+      console.log(`Failed to acquire token: ${response.status} - ${response.text()}`);
+      return createResponse(response.status, { error: 'Failed to acquire token' });
+    }
+
+    const accessToken = response.json();
     return createResponse(200, { accessToken });
   } catch (error) {
     console.log(error);
