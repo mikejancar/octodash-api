@@ -7,10 +7,10 @@ const headers = {
 export function createResponse(statusCode, customBody) {
   const body = customBody || getStandardBody(statusCode);
   return {
-    statusCode,
-    body,
-    headers,
-    isBase64Encoded: false,
+    'statusCode': statusCode,
+    'body': JSON.stringify(body),
+    'headers': headers,
+    'isBase64Encoded': false,
   };
 }
 
