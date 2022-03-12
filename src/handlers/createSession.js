@@ -1,5 +1,5 @@
 import { SecretsManagerClient } from '@aws-sdk/client-secrets-manager';
-import { createResponse } from '../core/response';
+import { createResponse } from '../core/response.js';
 
 const region = 'us-east-1';
 const secretName = 'OCTODASH_SECRETS';
@@ -7,7 +7,7 @@ const secretName = 'OCTODASH_SECRETS';
 /**
  * Creates an octodash client session
  */
-exports.createSession = async (event) => {
+export async function createSession(event) {
   if (event.httpMethod !== 'POST') {
     console.log(`Invalid method: ${event.httpMethod}`);
     return createResponse(400);
@@ -25,4 +25,4 @@ exports.createSession = async (event) => {
     console.log(error);
     return createResponse(500);
   }
-};
+}

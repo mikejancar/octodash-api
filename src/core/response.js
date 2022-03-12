@@ -4,7 +4,7 @@ const headers = {
   'Access-Control-Allow-Methods': 'OPTIONS,POST,GET,PUT',
 };
 
-exports.createResponse = (status, customBody) => {
+export function createResponse(status, customBody) {
   const body = customBody || getStandardBody(status);
   return {
     status,
@@ -12,9 +12,9 @@ exports.createResponse = (status, customBody) => {
     headers,
     isBase64Encoded: false,
   };
-};
+}
 
-getStandardBody = (status) => {
+function getStandardBody(status) {
   switch (status) {
     case '400':
       return { error: 'Bad request' };
@@ -23,4 +23,4 @@ getStandardBody = (status) => {
     default:
       return { message: 'No response' };
   }
-};
+}

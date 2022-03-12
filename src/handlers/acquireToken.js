@@ -1,6 +1,6 @@
 import { SecretsManagerClient } from '@aws-sdk/client-secrets-manager';
 import fetch from 'node-fetch';
-import { createResponse } from '../core/response';
+import { createResponse } from '../core/response.js';
 
 const region = 'us-east-1';
 const secretName = 'OCTODASH_SECRETS';
@@ -8,7 +8,7 @@ const secretName = 'OCTODASH_SECRETS';
 /**
  * Acquires a GitHub access token for the current session
  */
-exports.acquireToken = async (event) => {
+export async function acquireToken(event) {
   if (event.httpMethod !== 'POST') {
     console.log(`Invalid method: ${event.httpMethod}`);
     return createResponse(400);
@@ -51,4 +51,4 @@ exports.acquireToken = async (event) => {
     console.log(error);
     return createResponse(500);
   }
-};
+}
