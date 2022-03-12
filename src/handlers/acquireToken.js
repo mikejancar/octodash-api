@@ -38,10 +38,11 @@ export async function acquireToken(event) {
 
   try {
     const secretData = await secretsManager.getSecretValue({ SecretId: secretName });
+    const secretJson = JSON.parse(secretData.SecretString);
 
     const response = await fetch('https://github.com/login/oauth/access_token', {
       method: 'POST',
-      body: { client_id: secretData.githubClientId, client_secret: secretData.githubClientSecret, code: sessionCode },
+      body: { client_id: secretJson.githubClientId, client_secret: secretJson.githubClientSecret, code: sessionCode },
       headers: { Accept: 'application/json' },
     });
 
