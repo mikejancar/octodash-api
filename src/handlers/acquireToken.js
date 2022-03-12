@@ -41,7 +41,7 @@ export async function acquireToken(event) {
 
     const response = await fetch('https://github.com/login/oauth/access_token', {
       method: 'POST',
-      body: { clientId: secretData.githubClientId, clientSecret: secretData.githubClientSecret, sessionCode },
+      body: { client_id: secretData.githubClientId, client_secret: secretData.githubClientSecret, code: sessionCode },
       headers: { Accept: 'application/json' },
     });
 
