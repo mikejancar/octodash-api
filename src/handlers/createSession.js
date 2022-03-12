@@ -18,7 +18,7 @@ export async function createSession(event) {
   });
 
   try {
-    const secretData = await secretsManager.getSecretValue({ SecretId: secretName }).promise();
+    const secretData = await secretsManager.getSecretValue({ SecretId: secretName });
 
     return createResponse(200, { githubClientId: secretData.SecretString.githubClientId });
   } catch (error) {

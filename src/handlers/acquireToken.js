@@ -37,7 +37,7 @@ export async function acquireToken(event) {
   });
 
   try {
-    const secretData = await secretsManager.getSecretValue({ SecretId: secretName }).promise();
+    const secretData = await secretsManager.getSecretValue({ SecretId: secretName });
 
     const response = await fetch('https://github.com/login/oauth/access_token', {
       method: 'POST',
