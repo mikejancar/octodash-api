@@ -39,11 +39,16 @@ export async function acquireToken(event) {
   try {
     const secretData = await secretsManager.getSecretValue({ SecretId: secretName });
     const secretJson = JSON.parse(secretData.SecretString);
+    const requestBody = JSON.stringify({
+      client_id: secretJson.githubClientId,
+      client_secret: secretJson.githubClientSecret,
+      code: sessionCode,
+    });
 
     const response = await fetch('https://github.com/login/oauth/access_token', {
       method: 'POST',
-      body: { client_id: secretJson.githubClientId, client_secret: secretJson.githubClientSecret, code: sessionCode },
-      headers: { Accept: 'application/json' },
+      body: requestBody,
+      headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
     });
 
     if (!response.ok) {
@@ -51,9 +56,8 @@ export async function acquireToken(event) {
       console.log(`Failed to acquire token: ${response.status} - ${responseText}`);
       return createResponse(response.status, { error: 'Failed to acquire token' });
     }
-
-    const accessToken = await response.json();
-    return createResponse(200, { accessToken });
+    const tokenData = await response.json();
+    return createResponse(200, { accessToken: tokenData.access_token });
   } catch (error) {
     console.log(error);
     return createResponse(500);
